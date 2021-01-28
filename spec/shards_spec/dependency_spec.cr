@@ -27,5 +27,15 @@ module ShardsSpec
       dependency = Dependency.new("app", {tag: "v1.2.3-pre1"})
       dependency.version.should eq("1.2.3-pre1")
     end
+
+    it "#params" do
+      dependency = Dependency.new("app", {github: "mamantoha/shards_spec"})
+      dependency.params.should eq({"github" => "mamantoha/shards_spec"})
+    end
+
+    it "#keys" do
+      dependency = Dependency.new("app", {github: "mamantoha/shards_spec"})
+      dependency.keys.should eq(["github"])
+    end
   end
 end

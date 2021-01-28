@@ -32,6 +32,10 @@ module ShardsSpec
       @params[key]
     end
 
+    def keys
+      params.keys
+    end
+
     def version
       version { "*" }
     end

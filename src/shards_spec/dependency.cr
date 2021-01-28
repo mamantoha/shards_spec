@@ -1,22 +1,35 @@
 module ShardsSpec
-  class Dependency < Hash(String, String)
+  class Dependency
     property name : String
+    property params : Hash(String, String) = Hash(String, String).new
 
-    def self.new(pull : YAML::PullParser) : self
-      Dependency.new(pull.read_scalar).tap do |dependency|
-        pull.each_in_mapping do
-          dependency[pull.read_scalar] = pull.read_scalar
+    def initialize(@name : String)
+    end
+
+    def initialize(@name : String, config)
+      config.each { |k, v| params[k.to_s] = v.to_s }
+    end
+
+    def self.new(pull : YAML::PullParser)
+      mapping_start = pull.location
+      name = pull.read_scalar
+
+      params = Hash(String, String).new
+
+      pull.read_mapping do
+        until pull.kind.mapping_end?
+          location = pull.location
+          key, value = pull.read_scalar, pull.read_scalar
+
+          params[key] = value
         end
       end
+
+      Dependency.new(name, params)
     end
 
-    protected def initialize(@name)
-      super()
-    end
-
-    protected def initialize(@name, config)
-      super()
-      config.each { |k, v| self[k.to_s] = v.to_s }
+    def [](key)
+      @params[key]
     end
 
     def version
@@ -32,9 +45,9 @@ module ShardsSpec
     end
 
     private def version
-      if version = self["version"]?
+      if version = params["version"]?
         version
-      elsif self["tag"]? =~ VERSION_TAG
+      elsif params["tag"]? =~ VERSION_TAG
         $1
       else
         yield
@@ -42,21 +55,21 @@ module ShardsSpec
     end
 
     def refs
-      self["branch"]? || self["tag"]? || self["commit"]?
+      params["branch"]? || params["tag"]? || params["commit"]?
     end
 
     def path
-      self["path"]?
+      params["path"]?
     end
 
     def to_human_requirement
       if version = version?
         version
-      elsif branch = self["branch"]?
+      elsif branch = params["branch"]?
         "branch #{branch}"
-      elsif tag = self["tag"]?
+      elsif tag = params["tag"]?
         "tag #{tag}"
-      elsif commit = self["commit"]?
+      elsif commit = params["commit"]?
         "commit #{commit}"
       else
         "*"

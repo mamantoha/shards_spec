@@ -16,6 +16,7 @@ dependencies:
   http-client-digest_auth:
     github: mamantoha/http-client-digest_auth
     version: ~> 0.6.0
+    branch: main
   http_proxy:
     github: mamantoha/http_proxy
     version: ~> 0.8.0
@@ -35,10 +36,10 @@ spec = ShardsSpec::Spec.from_yaml(str)
 spec.name
 # crest
 
-puts spec.description
+spec.description
 # HTTP and REST client for Crystal
 
-puts spec.crystal
+spec.crystal
 # >= 0.36.0
 
 spec.version
@@ -49,6 +50,13 @@ spec.dependencies.each do |dependency|
 end
 # http-client-digest_auth | ~> 0.6.0
 # http_proxy | ~> 0.8.0
+
+if dependency = spec.dependencies.first
+  puts dependency.name
+  puts dependency.to_human_requirement.inspect
+  puts dependency.path.inspect
+  puts dependency.refs.inspect
+end
 
 spec.development_dependencies.each do |dependency|
   "#{dependency.name} | #{dependency.version}"

@@ -3,6 +3,8 @@ module ShardsSpec
     property name : String
     property params : Hash(String, String) = Hash(String, String).new
 
+    delegate :[], :keys, :fetch, to: params
+
     def initialize(@name : String)
     end
 
@@ -26,14 +28,6 @@ module ShardsSpec
       end
 
       Dependency.new(name, params)
-    end
-
-    def [](key)
-      @params[key]
-    end
-
-    def keys
-      params.keys
     end
 
     def version

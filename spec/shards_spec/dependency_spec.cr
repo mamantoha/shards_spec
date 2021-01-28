@@ -33,9 +33,19 @@ module ShardsSpec
       dependency.params.should eq({"github" => "mamantoha/shards_spec"})
     end
 
+    it "#[]" do
+      dependency = Dependency.new("app", {github: "mamantoha/shards_spec"})
+      dependency["github"].should eq("mamantoha/shards_spec")
+    end
+
     it "#keys" do
       dependency = Dependency.new("app", {github: "mamantoha/shards_spec"})
       dependency.keys.should eq(["github"])
+    end
+
+    it "#fetch" do
+      dependency = Dependency.new("app", {github: "mamantoha/shards_spec"})
+      dependency.fetch("github", "").should eq("mamantoha/shards_spec")
     end
   end
 end

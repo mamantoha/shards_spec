@@ -1,5 +1,8 @@
 # Shards::Spec
 
+![Crystal CI](https://github.com/mamantoha/shards_spec/workflows/Crystal%20CI/badge.svg)
+[![GitHub release](https://img.shields.io/github/release/mamantoha/shards_spec.svg)](https://github.com/mamantoha/shards_spec/releases)
+
 A `shard.yml` parser for the Crystal language.
 
 This library was extracted from [shards](https://github.com/crystal-lang/shards) version `0.10.0`.

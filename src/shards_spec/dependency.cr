@@ -13,14 +13,12 @@ module ShardsSpec
     end
 
     def self.new(pull : YAML::PullParser)
-      mapping_start = pull.location
       name = pull.read_scalar
 
       params = Hash(String, String).new
 
       pull.read_mapping do
         until pull.kind.mapping_end?
-          location = pull.location
           key, value = pull.read_scalar, pull.read_scalar
 
           params[key] = value

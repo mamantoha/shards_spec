@@ -1,5 +1,5 @@
 name: shards_spec
-version: 0.2.3
+version: 0.2.4
 
 authors:
   - Anton Maminov <anton.maminov@gmail.com>
@@ -8,6 +8,6 @@ development_dependencies:
   ameba:
     github: crystal-ameba/ameba
 
-crystal: ">= 0.36.0"
+crystal: ">= 1.0.0"
 
 license: MIT

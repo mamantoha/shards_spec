@@ -9,6 +9,8 @@ module ShardsSpec
       spec.description.should be_nil
       spec.license.should be_nil
       spec.authors.should be_empty
+      spec.targets.should be_empty
+      spec.scripts.should be_empty
     end
 
     it "parse description" do
@@ -158,6 +160,18 @@ module ShardsSpec
 
       spec.libraries[1].soname.should eq("libfoo")
       spec.libraries[1].version.should eq("*")
+    end
+
+    it "parse scripts" do
+      spec = Spec.from_yaml <<-YAML
+      name: ameba
+      version: 1.1.0
+      scripts:
+        postinstall: make bin && make run_file
+      YAML
+
+      spec.scripts.should_not be_empty
+      spec.scripts["postinstall"].should eq("make bin && make run_file")
     end
 
     it "fails to parse invalid library" do

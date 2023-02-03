@@ -40,7 +40,7 @@ module ShardsSpec
       Versions.prerelease? version
     end
 
-    private def version
+    private def version(&)
       if version = params["version"]?
         version
       elsif params["tag"]? =~ VERSION_TAG
